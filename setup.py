@@ -13,7 +13,7 @@ setup(
     description=DESCRIPTION,
     long_description_content_type="text/markdown",
     long_description=LONG_DESCRIPTION,
-    packages=find_packages(),
+    packages=find_packages(include=["qytorch", "qytorch.*"]),
     install_requires=[
         'torch',
         'numpy',
@@ -33,6 +33,7 @@ setup(
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
         "Topic :: Scientific/Engineering :: Mathematics",
         "Topic :: Scientific/Engineering :: Physics",
-        
-    ]
+    ],
+    url="https://github.com/smlab-niser/qytorch",
+    license="MIT",
 )

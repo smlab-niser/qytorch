@@ -12,17 +12,17 @@ import torch
 # import torch.nn.functional as F
 
 # import math
-
-
-def _construct_matrix(r, i, j, k):
-    """Construct real weight matrix from the quaternion weights.
+def _construct_matrix(r: torch.Tensor, i: torch.Tensor, j: torch.Tensor, k: torch.Tensor) -> torch.Tensor:
+    r"""Constructs a matrix from the given quaternion components. To  to be used in quaternion multiplications (Hamilton product).
 
     Args:
-        r, i, j, k (torch.tensor): parts of the quaternion weights
+        r,i,j,k (`torch.Tensor`): The real and imaginary parts of the quaternion, each of shape (in_features//4, out_features//4).
 
     Returns:
-        torch.tensor: real weight matrix
-    """
+        `torch.Tensor`: A matrix constructed from the quaternion components. The shape of the matrix is (in_features, out_features).
+    """    
+    
+    
     weight = torch.cat([torch.cat([r, -i, -j, -k], dim=0),
                         torch.cat([i,  r, -k,  j], dim=0),  # noqa: E241
                         torch.cat([j,  k,  r, -i], dim=0),  # noqa: E241

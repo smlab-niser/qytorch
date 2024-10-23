@@ -19,7 +19,10 @@ from quat_base import _construct_matrix
 
 
 class _QConvNd(nn.Module):
-
+    """Quaternion Convolution Base Class
+    
+    All features of torch.nn.ConvNd layer from PyTorch are supported.
+    """
     __constants__ = ['stride', 'padding', 'dilation', 'groups',
                      'padding_mode', 'output_padding', 'in_channels',
                      'out_channels', 'kernel_size']
@@ -56,6 +59,25 @@ class _QConvNd(nn.Module):
                  padding_mode: str,
                  device=None,
                  dtype=None) -> None:
+        """Initializing Quaternion Convolution Base Class
+
+        Args:
+            in_channels (int): `in_channels` for the input tensor.
+            out_channels (int): `out_channels` for the output tensor.
+            kernel_size (Tuple[int, ...]): `kernel_size` for the convolution.
+            stride (Tuple[int, ...]): `stride` for the convolution.
+            padding (Tuple[int, ...]): `padding` for the convolution.
+            dilation (Tuple[int, ...]): `dilation` for the convolution.
+            transposed (bool): True if this is a transposed convolution.
+            output_padding (Tuple[int, ...]): `output_padding` for the convolution.
+            groups (int): `groups` for the convolution.
+            bias (bool): True if bias is used.
+            padding_mode (str): `padding_mode` for the convolution.
+            device (optional): Defaults to None.
+            dtype (optional): Defaults to None.
+        """        
+        
+        
         factory_kwargs = {'device': device, 'dtype': dtype}
         super().__init__()
         if groups <= 0:
@@ -134,6 +156,12 @@ class _QConvNd(nn.Module):
                 init.uniform_(self.bias, -bound, bound)
 
     def extra_repr(self):
+        """Extra representation of the layer
+        
+        Returns:
+            str: The extra representation of the layer in string format.
+        """
+        
         s = ('{in_channels}, {out_channels}, kernel_size={kernel_size}'
              ', stride={stride}')
         if self.padding != (0,) * len(self.padding):
@@ -157,6 +185,10 @@ class _QConvNd(nn.Module):
 
 
 class QConv1d(_QConvNd):
+    """Quaternion Convolution 1D
+    
+    All features of torch.nn.Conv1d layer from PyTorch are supported.
+    """
     def __init__(
         self,
         in_channels: int,
@@ -171,6 +203,21 @@ class QConv1d(_QConvNd):
         device=None,
         dtype=None
     ) -> None:
+        """Initializing Quaternion Convolution 1D
+
+        Args:
+            in_channels (int): `in_channels` for the input tensor.
+            out_channels (int): `out_channels` for the output tensor.
+            kernel_size (_size_1_t): `kernel_size` for the convolution.
+            stride (_size_1_t, optional): `stride` for the convolution. Defaults to 1.
+            padding (Union[str, _size_1_t], optional): `padding` for the convolution. Defaults to 0.
+            dilation (_size_1_t, optional): `dilation` for the convolution. Defaults to 1.
+            groups (int, optional): `groups` for the convolution. Defaults to 1.
+            bias (bool, optional): True if bias is used. Defaults to True.
+            padding_mode (str, optional): `padding_mode` for the convolution. Defaults to 'zeros'.
+            device (optional): Defaults to None.
+            dtype (optional): Defaults to None.
+        """        
         factory_kwargs = {'device': device, 'dtype': dtype}
         kernel_size_ = _single(kernel_size)
         stride_ = _single(stride)
@@ -197,6 +244,10 @@ class QConv1d(_QConvNd):
 
 
 class QConv2d(_QConvNd):
+    """Quaternion Convolution 2D
+    
+    All features of torch.nn.Conv2d layer from PyTorch are supported.
+    """
     def __init__(
         self,
         in_channels: int,
@@ -211,6 +262,23 @@ class QConv2d(_QConvNd):
         device=None,
         dtype=None
     ) -> None:
+        """Initializing Quaternion Convolution 2D
+        
+        Args:
+            in_channels (int): `in_channels` for the input tensor.
+            out_channels (int): `out_channels` for the output tensor.
+            kernel_size (_size_2_t): `kernel_size` for the convolution.
+            stride (_size_2_t, optional): `stride` for the convolution. Defaults to 1.
+            padding (Union[str, _size_2_t], optional): `padding` for the convolution. Defaults to 0.
+            dilation (_size_2_t, optional): `dilation` for the convolution. Defaults to 1.
+            groups (int, optional): `groups` for the convolution. Defaults to 1.
+            bias (bool, optional): True if bias is used. Defaults to True.
+            padding_mode (str, optional): `padding_mode` for the convolution. Defaults to 'zeros'.
+            device (optional): Defaults to None.
+            dtype (optional): Defaults to None.
+        
+        """
+        
         factory_kwargs = {'device': device, 'dtype': dtype}
         kernel_size_ = _pair(kernel_size)
         stride_ = _pair(stride)
@@ -236,6 +304,10 @@ class QConv2d(_QConvNd):
         return _construct_matrix(self.r_weight, self.i_weight, self.j_weight, self.k_weight)
 
 class QConv3d(_QConvNd):
+    """Quaternion Convolution 3D
+    
+    All features of torch.nn.Conv3d layer from PyTorch are supported.
+    """
     def __init__(
         self,
         in_channels: int,
@@ -250,6 +322,24 @@ class QConv3d(_QConvNd):
         device=None,
         dtype=None
     ) -> None:
+        """Initializing Quaternion Convolution 3D
+        
+        Args:
+            in_channels (int): `in_channels` for the input tensor.
+            out_channels (int): `out_channels` for the output tensor.
+            kernel_size (_size_3_t): `kernel_size` for the convolution.
+            stride (_size_3_t, optional): `stride` for the convolution. Defaults to 1.
+            padding (Union[str, _size_3_t], optional): `padding` for the convolution. Defaults to 0.
+            dilation (_size_3_t, optional): `dilation` for the convolution. Defaults to 1.
+            groups (int, optional): `groups` for the convolution. Defaults to 1.
+            bias (bool, optional): True if bias is used. Defaults to True.
+            padding_mode (str, optional): `padding_mode` for the convolution. Defaults to 'zeros'.
+            device (optional): Defaults to None.
+            dtype (optional): Defaults to None.
+        
+        """
+        
+        
         factory_kwargs = {'device': device, 'dtype': dtype}
         kernel_size_ = _triple(kernel_size)
         stride_ = _triple(stride)

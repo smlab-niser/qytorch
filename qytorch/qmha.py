@@ -13,12 +13,31 @@ from quat_base import _construct_matrix
 from torch.nn.modules.activation import _check_arg_device, _arg_requires_grad, _is_make_fx_tracing
 
 class QMultiheadAttention(nn.Module):
+    """Quaternion Multihead Attention Layer.
+    
+    All features of `torch.nn.MultiheadAttention` layer from PyTorch are supported.
+    """
     __constants__ = ['batch_first']
     bias_k: Optional[torch.Tensor]
     bias_v: Optional[torch.Tensor]
 
     def __init__(self, embed_dim, num_heads, dropout=0., bias=True, add_bias_kv=False, add_zero_attn=False,
                  kdim=None, vdim=None, batch_first=False, device=None, dtype=None) -> None:
+        """Initializing Quaternion Multihead Attention Layer.
+        
+        Args:
+            embed_dim (`int`): Total dimension of the model.
+            num_heads (`int`): Parallel attention heads.
+            dropout (`float`, optional): A Dropout layer on attn_output_weights. Defaults to 0.0.
+            bias (`bool`, optional): If `True`, qmultiheadattention layers will have learnable bias. Defaults to `True`.
+            add_bias_kv (`bool`, optional): If `True`, then adds a learnable bias to the key and value sequences at the attention layer. Defaults to `False`.
+            add_zero_attn (`bool`, optional): If `True`, adds a new batch of zeros to the key and value sequences at the attention layer. Defaults to `False`.
+            kdim (`int`, optional): Total number of features in key. Defaults to `None`.
+            vdim (`int`, optional): Total number of features in value. Defaults to `None`.
+            batch_first (`bool`, optional): If `True`, then the input and output tensors are provided as (batch, seq, feature). Defaults to `False`.
+            device (optional): The desired device of the parameters. Defaults to `None`.
+            dtype (optional): The desired data type of the parameters. Defaults to `None`.
+        """
         if embed_dim <= 0 or num_heads <= 0:
             raise ValueError(
                 f"embed_dim and num_heads must be greater than 0,"
